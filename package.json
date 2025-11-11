@@ -1,0 +1,37 @@
+{
+  "name": "kreatr-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-Powered Social Media Lab untuk kreator konten",
+  "author": "kreatr.app team",
+  "license": "MIT",
+  "packageManager": "bun@1.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "type-check": "turbo run type-check",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "db:push": "cd packages/database && bunx prisma db push",
+    "db:migrate": "cd packages/database && bunx prisma migrate dev",
+    "db:studio": "cd packages/database && bunx prisma studio",
+    "db:seed": "cd packages/database && bun run seed"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "prettier": "^3.1.0",
+    "turbo": "^1.11.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
+  }
+}
