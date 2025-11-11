@@ -22,16 +22,25 @@
     "db:push": "cd packages/database && bunx prisma db push",
     "db:migrate": "cd packages/database && bunx prisma migrate dev",
     "db:studio": "cd packages/database && bunx prisma studio",
-    "db:seed": "cd packages/database && bun run seed"
+    "db:seed": "cd packages/database && bun run seed",
+    "commit:dev0:latest": "node scripts/utils/commit-manager.js latest dev0",
+    "commit:dev0:list": "node scripts/utils/commit-manager.js list dev0",
+    "commit:dev0:run": "node scripts/utils/commit-manager.js run dev0",
+    "commit:dev1:latest": "node scripts/utils/commit-manager.js latest dev1",
+    "commit:dev1:list": "node scripts/utils/commit-manager.js list dev1",
+    "commit:dev1:run": "node scripts/utils/commit-manager.js run dev1",
+    "commit:migrate": "node scripts/utils/commit-manager.js migrate dev0",
+    "commit:create": "node scripts/utils/commit-manager.js create",
+    "commit:help": "node scripts/utils/commit-manager.js help"
   },
   "devDependencies": {
-    "@types/node": "^20.10.0",
-    "prettier": "^3.1.0",
-    "turbo": "^1.11.0",
-    "typescript": "^5.3.0"
+    "@types/node": "^22.10.2",
+    "prettier": "^3.4.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2"
   },
   "engines": {
-    "node": ">=18.0.0",
+    "node": ">=20.0.0",
     "bun": ">=1.0.0"
   }
 }
