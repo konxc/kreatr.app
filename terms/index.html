@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Terms of Service - kreatr.app AI-Powered Social Media Manager">
+    <title>Terms of Service - kreatr.app</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 30px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .markdown-body h1 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        .markdown-body h2 {
+            color: #764ba2;
+            margin-top: 35px;
+            margin-bottom: 15px;
+        }
+
+        .markdown-body h3 {
+            color: #555;
+            margin-top: 25px;
+        }
+
+        .markdown-body a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .markdown-body a:hover {
+            text-decoration: underline;
+        }
+
+        .markdown-body code {
+            background: #f6f8fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid #667eea;
+            color: #666;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e1e4e8;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📜 Terms of Service</h1>
+            <p>kreatr.app - AI-Powered Social Media Manager</p>
+        </div>
+        
+        <div class="content">
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Memuat Terms of Service...</p>
+            </div>
+            <div id="markdown-content" class="markdown-body" style="display: none;"></div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 kreatr.app - All rights reserved</p>
+            <p style="margin-top: 10px;">
+                <a href="https://kreatr.app">Kembali ke Beranda</a> | 
+                <a href="/privacy">Privacy Policy</a> | 
+                <a href="mailto:legal@kreatr.app">Contact Legal</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
+    <script>
+        // Konfigurasi marked untuk rendering yang lebih baik
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            headerIds: true,
+            mangle: false
+        });
+
+        // Fungsi untuk fetch dan render markdown
+        async function loadMarkdown() {
+            const loadingEl = document.getElementById('loading');
+            const contentEl = document.getElementById('markdown-content');
+            
+            try {
+                // Fetch README.md dari folder yang sama
+                const response = await fetch('README.md');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const markdownText = await response.text();
+                
+                // Convert markdown ke HTML
+                const htmlContent = marked.parse(markdownText);
+                
+                // Tampilkan konten
+                contentEl.innerHTML = htmlContent;
+                loadingEl.style.display = 'none';
+                contentEl.style.display = 'block';
+                
+                // Smooth scroll untuk anchor links
+                addSmoothScroll();
+                
+            } catch (error) {
+                console.error('Error loading markdown:', error);
+                loadingEl.innerHTML = `
+                    <div class="error">
+                        <strong>⚠️ Gagal memuat Terms of Service</strong>
+                        <p>Terjadi kesalahan saat memuat dokumen. Silakan refresh halaman atau hubungi support@kreatr.app</p>
+                        <p style="margin-top: 10px; font-size: 0.9em;">Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Fungsi untuk smooth scroll pada internal links
+        function addSmoothScroll() {
+            const links = document.querySelectorAll('a[href^="#"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        // Load markdown saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', loadMarkdown);
+    </script>
+</body>
+</html>
