@@ -1,0 +1,5 @@
+{
+  "maxFilesPerCommit": 10,
+  "autoStage": false,
+  "conventionalCommits": true
+}
