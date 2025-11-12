@@ -17,7 +17,11 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "type-check": "turbo run type-check",
-    "test": "turbo run test",
+    "test": "bun run scripts/test.sh",
+    "test:watch": "bun test --watch",
+    "test:coverage": "bun test --coverage",
+    "test:api": "cd packages/api && bun test",
+    "test:web": "cd apps/web && bun test",
     "clean": "turbo run clean && rm -rf node_modules",
     "db:push": "cd packages/database && bunx prisma db push",
     "db:migrate": "cd packages/database && bunx prisma migrate dev",
@@ -26,6 +30,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/dom": "^9.3.3",
+    "happy-dom": "^12.10.3",
     "prettier": "^3.1.0",
     "turbo": "^1.11.0",
     "typescript": "^5.3.0"
