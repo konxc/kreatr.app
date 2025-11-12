@@ -1,270 +1,362 @@
 import { z } from 'zod'
-import { createTRPCRouter, protectedProcedure } from '../trpc'
-import { Platform, PostStatus } from '@kreatr/database'
+import { router, protectedProcedure } from '../trpc'
+import { TRPCError } from '@trpc/server'
 
-export const schedulerRouter = createTRPCRouter({
+export const schedulerRouter = router({
+  // Get scheduled posts for calendar view
+  getScheduled: protectedProcedure
+    .input(
+      z.object({
+        startDate: z.date(),
+        endDate: z.date(),
+        workspaceId: z.string().optional(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { startDate, endDate, workspaceId } = input
+
+      const where: any = {
+        authorId: ctx.session.user.id,
+        status: 'SCHEDULED',
+        scheduledAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+      }
+
+      if (workspaceId) {
+        where.workspaceId = workspaceId
+      }
+
+      const scheduled = await ctx.prisma.content.findMany({
+        where,
+        include: {
+          posts: {
+            include: {
+              account: true,
+            },
+          },
+          workspace: true,
+        },
+        orderBy: {
+          scheduledAt: 'asc',
+        },
+      })
+
+      return scheduled
+    }),
+
   // Schedule a post
   schedulePost: protectedProcedure
     .input(
       z.object({
         contentId: z.string(),
-        platform: z.nativeEnum(Platform),
-        accountId: z.string(),
         scheduledAt: z.date(),
+        platforms: z.array(
+          z.enum(['TIKTOK', 'INSTAGRAM', 'TWITTER'])
+        ),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      // Verify user has access to content and account
-      const content = await ctx.db.content.findFirst({
-        where: {
-          id: input.contentId,
+      const { contentId, scheduledAt, platforms } = input
+
+      // Verify content ownership
+      const content = await ctx.prisma.content.findUnique({
+        where: { id: contentId },
+        include: {
           workspace: {
-            members: {
-              some: {
-                userId: ctx.session.user.id,
-              },
+            include: {
+              members: true,
             },
           },
         },
       })
 
       if (!content) {
-        throw new Error('Content not found or access denied')
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Content not found',
+        })
       }
 
-      const account = await ctx.db.socialAccount.findFirst({
-        where: {
-          id: input.accountId,
-          workspace: {
-            members: {
-              some: {
-                userId: ctx.session.user.id,
-              },
-            },
-          },
-        },
-      })
+      // Check if user has access
+      const hasAccess = content.workspace.members.some(
+        (member) => member.userId === ctx.session.user.id
+      )
 
-      if (!account) {
-        throw new Error('Social account not found or access denied')
+      if (!hasAccess) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You do not have access to this content',
+        })
       }
 
-      // Create scheduled post
-      const post = await ctx.db.post.create({
-        data: {
-          platform: input.platform,
-          status: PostStatus.SCHEDULED,
-          contentId: input.contentId,
-          accountId: input.accountId,
-        },
-      })
+      // Check if scheduled time is in the future
+      if (scheduledAt <= new Date()) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Scheduled time must be in the future',
+        })
+      }
 
-      // Update content scheduled time
-      await ctx.db.content.update({
-        where: { id: input.contentId },
+      // Update content status
+      const updated = await ctx.prisma.content.update({
+        where: { id: contentId },
         data: {
-          scheduledAt: input.scheduledAt,
           status: 'SCHEDULED',
+          scheduledAt,
         },
       })
 
-      return post
+      // Create post entries for each platform
+      const socialAccounts = await ctx.prisma.socialAccount.findMany({
+        where: {
+          workspaceId: content.workspaceId,
+          platform: {
+            in: platforms,
+          },
+          isActive: true,
+        },
+      })
+
+      if (socialAccounts.length === 0) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'No active social accounts found for selected platforms',
+        })
+      }
+
+      // Create posts for each platform
+      await Promise.all(
+        socialAccounts.map((account) =>
+          ctx.prisma.post.create({
+            data: {
+              contentId: content.id,
+              accountId: account.id,
+              platform: account.platform,
+              status: 'SCHEDULED',
+            },
+          })
+        )
+      )
+
+      return {
+        success: true,
+        content: updated,
+        platformsScheduled: socialAccounts.length,
+      }
     }),
 
-  // Get scheduled posts
-  getScheduled: protectedProcedure
+  // Reschedule a post (drag & drop)
+  reschedulePost: protectedProcedure
     .input(
       z.object({
-        workspaceId: z.string(),
-        startDate: z.date().optional(),
-        endDate: z.date().optional(),
-        platform: z.nativeEnum(Platform).optional(),
+        contentId: z.string(),
+        newScheduledAt: z.date(),
       })
     )
-    .query(async ({ ctx, input }) => {
-      const whereClause: any = {
-        content: {
-          workspace: {
-            id: input.workspaceId,
-            members: {
-              some: {
-                userId: ctx.session.user.id,
-              },
-            },
-          },
-        },
-        status: PostStatus.SCHEDULED,
-      }
+    .mutation(async ({ ctx, input }) => {
+      const { contentId, newScheduledAt } = input
 
-      if (input.platform) {
-        whereClause.platform = input.platform
-      }
-
-      if (input.startDate || input.endDate) {
-        whereClause.content = {
-          ...whereClause.content,
-          scheduledAt: {},
-        }
-
-        if (input.startDate) {
-          whereClause.content.scheduledAt.gte = input.startDate
-        }
-
-        if (input.endDate) {
-          whereClause.content.scheduledAt.lte = input.endDate
-        }
-      }
-
-      return ctx.db.post.findMany({
-        where: whereClause,
+      // Verify ownership
+      const content = await ctx.prisma.content.findUnique({
+        where: { id: contentId },
         include: {
-          content: {
-            select: {
-              id: true,
-              title: true,
-              caption: true,
-              hashtags: true,
-              mediaUrls: true,
-              scheduledAt: true,
+          workspace: {
+            include: {
+              members: true,
             },
-          },
-          account: {
-            select: {
-              id: true,
-              platform: true,
-              username: true,
-              displayName: true,
-            },
-          },
-        },
-        orderBy: {
-          content: {
-            scheduledAt: 'asc',
           },
         },
       })
+
+      if (!content) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Content not found',
+        })
+      }
+
+      const hasAccess = content.workspace.members.some(
+        (member) => member.userId === ctx.session.user.id
+      )
+
+      if (!hasAccess) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You do not have access to this content',
+        })
+      }
+
+      // Update scheduled time
+      const updated = await ctx.prisma.content.update({
+        where: { id: contentId },
+        data: {
+          scheduledAt: newScheduledAt,
+        },
+      })
+
+      return {
+        success: true,
+        content: updated,
+      }
     }),
 
   // Cancel scheduled post
   cancelScheduled: protectedProcedure
-    .input(z.object({ postId: z.string() }))
+    .input(
+      z.object({
+        contentId: z.string(),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
-      const post = await ctx.db.post.findFirst({
-        where: {
-          id: input.postId,
-          content: {
-            workspace: {
-              members: {
-                some: {
-                  userId: ctx.session.user.id,
-                },
-              },
+      const { contentId } = input
+
+      // Verify ownership
+      const content = await ctx.prisma.content.findUnique({
+        where: { id: contentId },
+        include: {
+          workspace: {
+            include: {
+              members: true,
             },
           },
-        },
-        include: {
-          content: true,
+          posts: true,
         },
       })
 
-      if (!post) {
-        throw new Error('Post not found or access denied')
+      if (!content) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Content not found',
+        })
       }
 
-      if (post.status !== PostStatus.SCHEDULED) {
-        throw new Error('Post is not scheduled')
-      }
+      const hasAccess = content.workspace.members.some(
+        (member) => member.userId === ctx.session.user.id
+      )
 
-      // Delete the post
-      await ctx.db.post.delete({
-        where: { id: input.postId },
-      })
+      if (!hasAccess) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'You do not have access to this content',
+        })
+      }
 
       // Update content status back to draft
-      await ctx.db.content.update({
-        where: { id: post.contentId },
+      const updated = await ctx.prisma.content.update({
+        where: { id: contentId },
         data: {
           status: 'DRAFT',
           scheduledAt: null,
         },
       })
 
-      return { success: true }
+      // Delete scheduled posts
+      await ctx.prisma.post.deleteMany({
+        where: {
+          contentId: content.id,
+          status: 'SCHEDULED',
+        },
+      })
+
+      return {
+        success: true,
+        content: updated,
+      }
     }),
 
-  // Get calendar view data
-  getCalendarData: protectedProcedure
+  // Get queue status
+  getQueueStatus: protectedProcedure.query(async ({ ctx }) => {
+    const now = new Date()
+    const next24Hours = new Date(now.getTime() + 24 * 60 * 60 * 1000)
+
+    const upcoming = await ctx.prisma.content.count({
+      where: {
+        authorId: ctx.session.user.id,
+        status: 'SCHEDULED',
+        scheduledAt: {
+          gte: now,
+          lte: next24Hours,
+        },
+      },
+    })
+
+    const total = await ctx.prisma.content.count({
+      where: {
+        authorId: ctx.session.user.id,
+        status: 'SCHEDULED',
+      },
+    })
+
+    const nextPost = await ctx.prisma.content.findFirst({
+      where: {
+        authorId: ctx.session.user.id,
+        status: 'SCHEDULED',
+        scheduledAt: {
+          gte: now,
+        },
+      },
+      orderBy: {
+        scheduledAt: 'asc',
+      },
+      include: {
+        posts: {
+          include: {
+            account: true,
+          },
+        },
+      },
+    })
+
+    return {
+      upcoming,
+      total,
+      nextPost,
+    }
+  }),
+
+  // Get posting history
+  getHistory: protectedProcedure
     .input(
       z.object({
-        workspaceId: z.string(),
-        month: z.number().min(1).max(12),
-        year: z.number(),
+        limit: z.number().min(1).max(100).default(20),
+        offset: z.number().min(0).default(0),
       })
     )
     .query(async ({ ctx, input }) => {
-      const startDate = new Date(input.year, input.month - 1, 1)
-      const endDate = new Date(input.year, input.month, 0, 23, 59, 59)
+      const { limit, offset } = input
 
-      const posts = await ctx.db.post.findMany({
+      const history = await ctx.prisma.content.findMany({
         where: {
-          content: {
-            workspace: {
-              id: input.workspaceId,
-              members: {
-                some: {
-                  userId: ctx.session.user.id,
-                },
-              },
-            },
-            scheduledAt: {
-              gte: startDate,
-              lte: endDate,
-            },
-          },
+          authorId: ctx.session.user.id,
+          status: 'PUBLISHED',
         },
         include: {
-          content: {
-            select: {
-              id: true,
-              title: true,
-              scheduledAt: true,
-            },
-          },
-          account: {
-            select: {
-              platform: true,
-              username: true,
+          posts: {
+            include: {
+              account: true,
             },
           },
         },
         orderBy: {
-          content: {
-            scheduledAt: 'asc',
-          },
+          publishedAt: 'desc',
+        },
+        take: limit,
+        skip: offset,
+      })
+
+      const total = await ctx.prisma.content.count({
+        where: {
+          authorId: ctx.session.user.id,
+          status: 'PUBLISHED',
         },
       })
 
-      // Group by date
-      const calendarData = posts.reduce((acc, post) => {
-        if (!post.content.scheduledAt) return acc
-
-        const dateKey = post.content.scheduledAt.toISOString().split('T')[0]
-        if (!acc[dateKey]) {
-          acc[dateKey] = []
-        }
-
-        acc[dateKey].push({
-          id: post.id,
-          title: post.content.title,
-          platform: post.account.platform,
-          username: post.account.username,
-          time: post.content.scheduledAt.toISOString(),
-          status: post.status,
-        })
-
-        return acc
-      }, {} as Record<string, any[]>)
-
-      return calendarData
+      return {
+        history,
+        total,
+        hasMore: offset + limit < total,
+      }
     }),
 })
