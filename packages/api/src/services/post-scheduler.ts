@@ -63,7 +63,7 @@ export class PostSchedulerService {
     console.log(`[Scheduler] Publishing content: ${content.title}`)
 
     const results = await Promise.allSettled(
-      content.posts.map((post: any) => this.publishToPlat form(post, content))
+      content.posts.map((post: any) => this.publishToPlatform(post, content))
     )
 
     // Check if all posts succeeded

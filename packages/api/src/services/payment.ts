@@ -67,61 +67,70 @@ export class PaymentService {
     successUrl: string
     cancelUrl: string
   }) {
-    const { userId, packageId, successUrl, cancelUrl } = params
+    try {
+      const { userId, packageId, successUrl, cancelUrl } = params
 
-    // Get package details
-    const pkg = creditPackages.find((p) => p.id === packageId)
-    if (!pkg) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: 'Package not found',
+      // Get package details
+      const pkg = creditPackages.find((p) => p.id === packageId)
+      if (!pkg) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Package not found',
+        })
+      }
+
+      // Get user
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
       })
-    }
 
-    // Get user
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-    })
+      if (!user) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'User not found',
+        })
+      }
 
-    if (!user) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: 'User not found',
-      })
-    }
+      // Calculate total credits (base + bonus)
+      const totalCredits = pkg.credits + (pkg.bonus || 0)
 
-    // Calculate total credits (base + bonus)
-    const totalCredits = pkg.credits + (pkg.bonus || 0)
-
-    // Create Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
-      customer_email: user.email,
-      line_items: [
-        {
-          price_data: {
-            currency: pkg.currency.toLowerCase(),
-            product_data: {
-              name: pkg.name,
-              description: `${totalCredits} AI Credits${
-                pkg.bonus ? ` (${pkg.credits} + ${pkg.bonus} bonus)` : ''
-              }`,
-              images: ['https://kreatr.app/images/credits-icon.png'],
+      // Create Stripe checkout session
+      const session = await stripe.checkout.sessions.create({
+        customer_email: user.email,
+        line_items: [
+          {
+            price_data: {
+              currency: pkg.currency.toLowerCase(),
+              product_data: {
+                name: pkg.name,
+                description: `${totalCredits} AI Credits${
+                  pkg.bonus ? ` (${pkg.credits} + ${pkg.bonus} bonus)` : ''
+                }`,
+                images: ['https://kreatr.app/images/credits-icon.png'],
+              },
+              unit_amount: pkg.price * 100, // Convert to cents
             },
-            unit_amount: pkg.price * 100, // Convert to cents
+            quantity: 1,
           },
-          quantity: 1,
+        ],
+        mode: 'payment',
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        metadata: {
+          userId,
+          packageId,
+          credits: totalCredits.toString(),
         },
-      ],
-      mode: 'payment',
-      success_url: successUrl,
-      cancel_url: cancelUrl,
-      metadata: {
-        userId,
-        packageId,
-        credits: totalCredits.toString(),
-      },
-    })
-ROR',
+      })
+
+      return {
+        sessionId: session.id,
+        url: session.url,
+      }
+    } catch (error) {
+      console.error('[Stripe] Create checkout error:', error)
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
         message: 'Failed to create payment transaction',
         cause: error,
       })

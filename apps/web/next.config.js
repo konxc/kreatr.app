@@ -1,19 +1,37 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   
   // Transpile packages from monorepo
   transpilePackages: ['@kreatr/database', '@kreatr/api', '@kreatr/ui'],
   
-  // Image optimization
+  // Turbopack configuration (Next.js 16+)
+  // Empty config to silence webpack warning
+  turbopack: {},
+  
+  // Image optimization (Next.js 16 format)
   images: {
-    domains: [
-      'lh3.googleusercontent.com', // Google OAuth
-      'avatars.githubusercontent.com', // GitHub OAuth
-      'p16-sign-va.tiktokcdn.com', // TikTok
-      'scontent.cdninstagram.com', // Instagram
-      'pbs.twimg.com', // Twitter
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'p16-sign-va.tiktokcdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent.cdninstagram.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pbs.twimg.com',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
   },
@@ -71,7 +89,7 @@ const nextConfig = {
     ]
   },
   
-  // Webpack configuration
+  // Webpack configuration (fallback for --webpack flag)
   webpack: (config, { isServer }) => {
     if (!isServer) {
       // Don't resolve 'fs' module on the client to prevent this error on build
@@ -84,11 +102,6 @@ const nextConfig = {
     }
     
     return config
-  },
-  
-  // Experimental features
-  experimental: {
-    serverActions: true,
   },
 }
 
