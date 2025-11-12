@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { SessionProvider } from '@/components/providers/session-provider'
+import { TRPCProvider } from '@/providers/trpc-provider'
+import { Toaster } from '@/components/ui/toaster'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'kreatr.app - AI-Powered Social Media Lab',
-  description: 'Platform AI untuk kreator konten, marketer, dan UMKM. Generate ide, buat konten, dan schedule posting otomatis.',
-  keywords: ['AI', 'social media', 'content creator', 'TikTok', 'Instagram', 'marketing'],
+  description: 'Create, schedule, and analyze your social media content with AI',
 }
 
 export default function RootLayout({
@@ -17,11 +17,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="id">
+    <html lang="en">
       <body className={inter.className}>
-        <SessionProvider>
+        <TRPCProvider>
           {children}
-        </SessionProvider>
+          <Toaster />
+        </TRPCProvider>
       </body>
     </html>
   )

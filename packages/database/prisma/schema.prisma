@@ -36,6 +36,7 @@ model User {
   contents      Content[]
   credits       CreditTransaction[]
   comments      Comment[]
+  payments      PaymentTransaction[]
 
   @@map("users")
 }
@@ -291,4 +292,41 @@ enum CreditType {
   USAGE         // Used for AI generation
   REFUND        // Refunded credits
   SUBSCRIPTION  // Monthly credits from plan
+}
+
+
+// ============================================
+// PAYMENT & BILLING
+// ============================================
+
+model PaymentTransaction {
+  id            String   @id @default(cuid())
+  orderId       String   @unique
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  amount        Int      // Amount in IDR
+  creditAmount  Int      // Credits purchased
+  status        PaymentStatus @default(PENDING)
+  paymentMethod String   // midtrans, stripe, etc
+  
+  metadata      Json?    // Store payment gateway response
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  completedAt   DateTime?
+
+  @@map("payment_transactions")
+  @@index([userId])
+  @@index([orderId])
+  @@index([status])
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  SUCCESS
+  FAILED
+  CANCELLED
+  REFUNDED
 }
