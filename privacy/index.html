@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Privacy Policy - kreatr.app AI-Powered Social Media Manager">
+    <title>Privacy Policy - kreatr.app</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '🔒';
+            font-size: 4rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 5px;
+        }
+
+        .header .last-updated {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+
+        .toc h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            margin: 8px 0;
+        }
+
+        .toc-list a {
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .toc-list a:hover {
+            color: #667eea;
+            padding-left: 10px;
+        }
+
+        .toc-list a::before {
+            content: '→';
+            margin-right: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .toc-list a:hover::before {
+            opacity: 1;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 30px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .markdown-body h1 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        .markdown-body h2 {
+            color: #764ba2;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .markdown-body h3 {
+            color: #555;
+            margin-top: 25px;
+        }
+
+        .markdown-body a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .markdown-body a:hover {
+            text-decoration: underline;
+        }
+
+        .markdown-body code {
+            background: #f6f8fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .markdown-body blockquote {
+            border-left: 4px solid #667eea;
+            color: #666;
+            background: #f8f9fa;
+            padding: 10px 20px;
+        }
+
+        .markdown-body ul {
+            padding-left: 25px;
+        }
+
+        .markdown-body li {
+            margin: 8px 0;
+        }
+
+        /* Highlight important sections */
+        .markdown-body strong {
+            color: #764ba2;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e1e4e8;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .error {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        /* Info boxes */
+        .markdown-body p:has(> strong:first-child) {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+
+            body {
+                padding: 10px;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 16px;
+                font-size: 1.2rem;
+            }
+
+            .toc {
+                padding: 20px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>🔒 Privacy Policy</h1>
+                <p>kreatr.app - AI-Powered Social Media Manager</p>
+                <p class="last-updated" id="last-updated">Loading...</p>
+            </div>
+        </div>
+        
+        <div class="toc" id="toc" style="display: none;">
+            <h2>📋 Daftar Isi</h2>
+            <ul class="toc-list" id="toc-list"></ul>
+        </div>
+
+        <div class="content">
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Memuat Privacy Policy...</p>
+            </div>
+            <div id="markdown-content" class="markdown-body" style="display: none;"></div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 kreatr.app - All rights reserved</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                Kami berkomitmen melindungi privasi dan data Anda.
+            </p>
+            <div class="footer-links">
+                <a href="https://kreatr.app">🏠 Kembali ke Beranda</a>
+                <a href="/terms">📜 Terms of Service</a>
+                <a href="mailto:privacy@kreatr.app">✉️ Contact Privacy Team</a>
+                <a href="https://kreatr.app/data-request">📊 Data Request Form</a>
+            </div>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
+    <script>
+        // Konfigurasi marked untuk rendering yang lebih baik
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            headerIds: true,
+            mangle: false
+        });
+
+        // Fungsi untuk fetch dan render markdown
+        async function loadMarkdown() {
+            const loadingEl = document.getElementById('loading');
+            const contentEl = document.getElementById('markdown-content');
+            const tocEl = document.getElementById('toc');
+            const tocListEl = document.getElementById('toc-list');
+            
+            try {
+                // Fetch README.md dari folder yang sama
+                const response = await fetch('README.md');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const markdownText = await response.text();
+                
+                // Extract last updated date dari markdown
+                const dateMatch = markdownText.match(/\*\*Terakhir diperbarui:\s*(.+?)\*\*/);
+                if (dateMatch) {
+                    document.getElementById('last-updated').textContent = `Terakhir diperbarui: ${dateMatch[1]}`;
+                }
+                
+                // Convert markdown ke HTML
+                const htmlContent = marked.parse(markdownText);
+                
+                // Tampilkan konten
+                contentEl.innerHTML = htmlContent;
+                loadingEl.style.display = 'none';
+                contentEl.style.display = 'block';
+                
+                // Generate Table of Contents
+                generateTOC(contentEl, tocListEl, tocEl);
+                
+                // Smooth scroll untuk anchor links
+                addSmoothScroll();
+                
+                // Setup back to top button
+                setupBackToTop();
+                
+            } catch (error) {
+                console.error('Error loading markdown:', error);
+                loadingEl.innerHTML = `
+                    <div class="error">
+                        <strong>⚠️ Gagal memuat Privacy Policy</strong>
+                        <p>Terjadi kesalahan saat memuat dokumen. Silakan refresh halaman atau hubungi privacy@kreatr.app</p>
+                        <p style="margin-top: 10px; font-size: 0.9em;">Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Fungsi untuk generate Table of Contents
+        function generateTOC(contentEl, tocListEl, tocEl) {
+            const headers = contentEl.querySelectorAll('h2');
+            
+            if (headers.length === 0) return;
+            
+            headers.forEach((header, index) => {
+                // Create ID for header if not exists
+                if (!header.id) {
+                    header.id = `section-${index}`;
+                }
+                
+                // Create TOC item
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${header.id}`;
+                a.textContent = header.textContent;
+                li.appendChild(a);
+                tocListEl.appendChild(li);
+            });
+            
+            tocEl.style.display = 'block';
+        }
+
+        // Fungsi untuk smooth scroll pada internal links
+        function addSmoothScroll() {
+            const links = document.querySelectorAll('a[href^="#"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+
+        // Setup back to top button
+        function setupBackToTop() {
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Load markdown saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', loadMarkdown);
+    </script>
+</body>
+</html>
