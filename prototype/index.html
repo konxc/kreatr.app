@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="kreatr.app - Laboratorium AI untuk kreator konten. Platform lengkap untuk riset, pembuatan, dan publikasi konten media sosial dengan AI.">
+    <meta name="keywords" content="AI content creator, social media tools, content automation, kreator konten Indonesia">
+    <meta name="author" content="kreatr.app">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kreatr.app/">
+    <meta property="og:title" content="kreatr.app - Laboratorium AI untuk Kreator Konten">
+    <meta property="og:description" content="Platform AI yang membantu kreator menemukan ide, membuat konten, dan menganalisis performa dalam satu tempat.">
+    <meta property="og:image" content="https://kreatr.app/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kreatr.app/">
+    <meta property="twitter:title" content="kreatr.app - Laboratorium AI untuk Kreator Konten">
+    <meta property="twitter:description" content="Platform AI yang membantu kreator menemukan ide, membuat konten, dan menganalisis performa dalam satu tempat.">
+    <meta property="twitter:image" content="https://kreatr.app/twitter-image.jpg">
+    
+    <title>kreatr.app - Laboratorium AI untuk Kreator Konten</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== CSS Reset & Base Styles ===== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            line-height: var(--leading-normal);
+            color: var(--color-dark);
+            background-color: var(--color-white);
+        }
+        
+        img, picture, video, canvas, svg {
+            display: block;
+            max-width: 100%;
+        }
+        
+        button, input, textarea, select {
+            font: inherit;
+        }
+        
+        /* ===== Design Tokens ===== */
+        :root {
+            /* Primary Colors */
+            --color-primary: #6366f1;
+            --color-primary-dark: #4f46e5;
+            --color-primary-light: #818cf8;
+            
+            /* Secondary Colors */
+            --color-secondary: #ec4899;
+            --color-secondary-dark: #db2777;
+            --color-secondary-light: #f472b6;
+            
+            /* Neutral Colors */
+            --color-dark: #1e293b;
+            --color-gray: #64748b;
+            --color-light: #f1f5f9;
+            --color-white: #ffffff;
+            
+            /* Semantic Colors */
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-error: #ef4444;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            --gradient-hero: linear-gradient(180deg, #1e293b 0%, #334155 100%);
+            
+            /* Font Families */
+            --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            
+            /* Font Sizes */
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --text-5xl: 3rem;
+            --text-6xl: 3.75rem;
+            
+            /* Font Weights */
+            --font-normal: 400;
+            --font-medium: 500;
+            --font-semibold: 600;
+            --font-bold: 700;
+            
+            /* Line Heights */
+            --leading-tight: 1.25;
+            --leading-normal: 1.5;
+            --leading-relaxed: 1.75;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            
+            /* Border Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-full: 9999px;
+        }
+        
+        /* ===== Utility Classes ===== */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--space-4);
+        }
+        
+        /* Skip to content link */
+        .skip-to-content {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--color-primary);
+            color: white;
+            padding: var(--space-2) var(--space-4);
+            text-decoration: none;
+            z-index: 100;
+        }
+        
+        .skip-to-content:focus {
+            top: 0;
+        }
+        
+        /* ===== Responsive Typography ===== */
+        @media (max-width: 767px) {
+            :root {
+                --text-3xl: 1.5rem;
+                --text-4xl: 1.875rem;
+                --text-5xl: 2.25rem;
+                --text-6xl: 2.5rem;
+            }
+        }
+        
+        /* ===== Media Query Breakpoints ===== */
+        /* Mobile: 320px - 767px (default) */
+        /* Tablet: 768px - 1023px */
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 var(--space-6);
+            }
+        }
+        
+        /* Desktop: 1024px - 1440px */
+        @media (min-width: 1024px) {
+            .container {
+                padding: 0 var(--space-8);
+            }
+        }
+        
+        /* Large Desktop: 1441px+ */
+        @media (min-width: 1441px) {
+            .container {
+                max-width: 1440px;
+            }
+        }
+        
+        /* ===== Animation & Transitions ===== */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* ===== Hero Section ===== */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-hero);
+            color: var(--color-white);
+            padding: var(--space-16) 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        #hero .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero-headline {
+            font-size: var(--text-5xl);
+            font-weight: var(--font-bold);
+            line-height: var(--leading-tight);
+            margin-bottom: var(--space-6);
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subheadline {
+            font-size: var(--text-xl);
+            font-weight: var(--font-normal);
+            line-height: var(--leading-relaxed);
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto var(--space-10);
+        }
+        
+        .cta-group {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary, .btn-secondary {
+            padding: var(--space-4) var(--space-8);
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            border: none;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 160px;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--color-white);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-white);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Hero Responsive */
+        @media (max-width: 767px) {
+            #hero {
+                min-height: 90vh;
+                padding: var(--space-12) 0;
+            }
+            
+            .hero-headline {
+                font-size: var(--text-4xl);
+            }
+            
+            .hero-subheadline {
+                font-size: var(--text-lg);
+            }
+            
+            .cta-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                min-width: auto;
+            }
+        }
+        
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .hero-headline {
+                font-size: var(--text-5xl);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .hero-headline {
+                font-size: var(--text-6xl);
+            }
+        }
+        
+        /* ===== Section Styles ===== */
+        section {
+            padding: var(--space-20) 0;
+        }
+        
+        .section-title {
+            font-size: var(--text-4xl);
+            font-weight: var(--font-bold);
+            text-align: center;
+            margin-bottom: var(--space-12);
+            color: var(--color-dark);
+        }
+        
+        .section-intro {
+            font-size: var(--text-xl);
+            text-align: center;
+            color: var(--color-gray);
+            max-width: 700px;
+            margin: 0 auto var(--space-12);
+        }
+        
+        /* ===== Problem Section ===== */
+        #problems {
+            background-color: var(--color-light);
+        }
+        
+        .problems-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-6);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .problem-card {
+            background: var(--color-white);
+            padding: var(--space-8);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .problem-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .problem-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-4);
+        }
+        
+        .problem-card h3 {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-3);
+            color: var(--color-dark);
+        }
+        
+        .problem-card p {
+            font-size: var(--text-base);
+            line-height: var(--leading-relaxed);
+            color: var(--color-gray);
+        }
+        
+        /* Problem Section Responsive */
+        @media (min-width: 768px) {
+            .problems-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .section-title {
+                font-size: var(--text-3xl);
+            }
+        }
+        
+        /* ===== Solution Section ===== */
+        #solution {
+            background: linear-gradient(180deg, var(--color-white) 0%, var(--color-light) 100%);
+        }
+        
+        .solution-workflow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-4);
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        
+        .workflow-step {
+            flex: 1;
+            min-width: 200px;
+            max-width: 250px;
+            text-align: center;
+            padding: var(--space-6);
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .workflow-step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .workflow-step:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            color: var(--color-white);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-4);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .workflow-step h4 {
+            font-size: var(--text-xl);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-3);
+            color: var(--color-dark);
+        }
+        
+        .workflow-step p {
+            font-size: var(--text-sm);
+            line-height: var(--leading-relaxed);
+            color: var(--color-gray);
+        }
+        
+        .workflow-connector {
+            font-size: var(--text-3xl);
+            color: var(--color-primary);
+            font-weight: var(--font-bold);
+            flex-shrink: 0;
+        }
+        
+        /* Solution Section Responsive */
+        @media (max-width: 767px) {
+            .solution-workflow {
+                flex-direction: column;
+                gap: var(--space-6);
+            }
+            
+            .workflow-step {
+                max-width: 100%;
+            }
+            
+            .workflow-connector {
+                transform: rotate(90deg);
+                font-size: var(--text-2xl);
+            }
+        }
+        
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .solution-workflow {
+                flex-wrap: wrap;
+            }
+            
+            .workflow-step {
+                flex: 1 1 calc(50% - var(--space-4));
+                max-width: calc(50% - var(--space-4));
+            }
+            
+            .workflow-connector:nth-of-type(2),
+            .workflow-connector:nth-of-type(4) {
+                display: none;
+            }
+            
+            .workflow-connector:nth-of-type(3) {
+                flex-basis: 100%;
+                text-align: center;
+                transform: rotate(90deg);
+            }
+        }
+        
+        /* ===== Features Section ===== */
+        #features {
+            background-color: var(--color-white);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-8);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            position: relative;
+            padding: var(--space-8);
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: var(--radius-xl);
+            padding: 2px;
+            background: var(--gradient-primary);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        
+        .feature-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: var(--space-4);
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .feature-card h3 {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-3);
+            color: var(--color-dark);
+        }
+        
+        .feature-card p {
+            font-size: var(--text-base);
+            line-height: var(--leading-relaxed);
+            color: var(--color-gray);
+        }
+        
+        /* Features Section Responsive */
+        @media (min-width: 768px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .feature-card:nth-child(4),
+            .feature-card:nth-child(5) {
+                grid-column: span 1;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .feature-card:nth-child(4) {
+                grid-column: 1 / 2;
+            }
+            
+            .feature-card:nth-child(5) {
+                grid-column: 2 / 3;
+            }
+        }
+        
+        /* ===== Demo Section ===== */
+        #demo {
+            background: linear-gradient(180deg, var(--color-white) 0%, var(--color-light) 100%);
+        }
+        
+        .demo-video {
+            max-width: 900px;
+            margin: 0 auto var(--space-16);
+        }
+        
+        .video-placeholder {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: var(--gradient-primary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .video-placeholder:hover {
+            transform: scale(1.02);
+        }
+        
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        }
+        
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-3xl);
+            color: var(--color-primary);
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+        
+        .video-placeholder:hover .play-icon {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: var(--color-white);
+        }
+        
+        .video-placeholder p {
+            position: absolute;
+            bottom: var(--space-6);
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--color-white);
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .demo-steps {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-6);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .demo-step {
+            display: flex;
+            gap: var(--space-6);
+            padding: var(--space-6);
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        
+        .demo-step.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .demo-step:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateX(4px);
+        }
+        
+        .demo-step-number {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            color: var(--color-primary);
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            border-radius: var(--radius-lg);
+        }
+        
+        .demo-step-content {
+            flex: 1;
+        }
+        
+        .demo-step h4 {
+            font-size: var(--text-xl);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-2);
+            color: var(--color-dark);
+        }
+        
+        .demo-step p {
+            font-size: var(--text-base);
+            line-height: var(--leading-relaxed);
+            color: var(--color-gray);
+        }
+        
+        /* Demo Section Responsive */
+        @media (min-width: 768px) {
+            .demo-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .play-icon {
+                width: 60px;
+                height: 60px;
+                font-size: var(--text-2xl);
+            }
+            
+            .demo-step {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .demo-step-number {
+                margin: 0 auto;
+            }
+        }
+        
+        /* ===== Testimonials Section ===== */
+        #testimonials {
+            background-color: var(--color-white);
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-6);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .testimonial-card {
+            position: relative;
+            padding: var(--space-8);
+            background: var(--color-light);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .testimonial-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .quote-mark {
+            position: absolute;
+            top: var(--space-4);
+            left: var(--space-6);
+            font-size: 4rem;
+            line-height: 1;
+            color: var(--color-primary);
+            opacity: 0.2;
+            font-family: Georgia, serif;
+        }
+        
+        .testimonial-quote {
+            position: relative;
+            font-size: var(--text-lg);
+            line-height: var(--leading-relaxed);
+            font-style: italic;
+            color: var(--color-dark);
+            margin-bottom: var(--space-6);
+            padding-top: var(--space-4);
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+        
+        .author-avatar {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-white);
+            font-weight: var(--font-bold);
+            font-size: var(--text-lg);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .author-info {
+            flex: 1;
+        }
+        
+        .author-name {
+            font-size: var(--text-base);
+            font-weight: var(--font-semibold);
+            color: var(--color-dark);
+            margin-bottom: var(--space-1);
+        }
+        
+        .author-role {
+            font-size: var(--text-sm);
+            color: var(--color-gray);
+        }
+        
+        /* Testimonials Section Responsive */
+        @media (min-width: 768px) {
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .testimonials-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* ===== Pricing Section ===== */
+        #pricing {
+            background: linear-gradient(180deg, var(--color-white) 0%, var(--color-light) 100%);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-8);
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: start;
+        }
+        
+        .pricing-card {
+            position: relative;
+            padding: var(--space-8);
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            border: 2px solid var(--color-light);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .pricing-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--color-primary-light);
+        }
+        
+        .pricing-card.featured {
+            border: 3px solid var(--color-primary);
+            box-shadow: var(--shadow-xl);
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured.visible {
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-primary);
+            color: var(--color-white);
+            padding: var(--space-2) var(--space-6);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .tier-name {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            color: var(--color-dark);
+            margin-bottom: var(--space-3);
+        }
+        
+        .tier-description {
+            font-size: var(--text-base);
+            color: var(--color-gray);
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--color-light);
+        }
+        
+        .tier-features {
+            list-style: none;
+            margin-bottom: var(--space-8);
+            flex: 1;
+        }
+        
+        .tier-features li {
+            font-size: var(--text-base);
+            color: var(--color-dark);
+            padding: var(--space-3) 0;
+            line-height: var(--leading-relaxed);
+        }
+        
+        .tier-features li:not(:last-child) {
+            border-bottom: 1px solid var(--color-light);
+        }
+        
+        .btn-outline {
+            padding: var(--space-4) var(--space-8);
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            border: 2px solid var(--color-primary);
+            background: transparent;
+            color: var(--color-primary);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-outline:hover {
+            background: var(--color-primary);
+            color: var(--color-white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .pricing-card.featured .btn-primary {
+            width: 100%;
+        }
+        
+        /* Pricing Section Responsive */
+        @media (min-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .pricing-card.featured {
+                grid-column: 1 / -1;
+                max-width: 500px;
+                margin: 0 auto;
+                width: 100%;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .pricing-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .pricing-card.featured {
+                grid-column: auto;
+                max-width: none;
+            }
+        }
+        
+        /* ===== Final CTA Section ===== */
+        #final-cta {
+            background: var(--gradient-hero);
+            color: var(--color-white);
+            text-align: center;
+            padding: var(--space-24) 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #final-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(99, 102, 241, 0.4) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(236, 72, 153, 0.4) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        #final-cta .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-headline {
+            font-size: var(--text-5xl);
+            font-weight: var(--font-bold);
+            line-height: var(--leading-tight);
+            margin-bottom: var(--space-6);
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .cta-subheadline {
+            font-size: var(--text-xl);
+            line-height: var(--leading-relaxed);
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto var(--space-10);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--space-6);
+        }
+        
+        .btn-primary-large, .btn-secondary-large {
+            padding: var(--space-5) var(--space-10);
+            font-size: var(--text-xl);
+            font-weight: var(--font-semibold);
+            border: none;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 200px;
+        }
+        
+        .btn-primary-large {
+            background: var(--gradient-primary);
+            color: var(--color-white);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .btn-primary-large:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 20px 40px -5px rgba(99, 102, 241, 0.5);
+        }
+        
+        .btn-secondary-large {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--color-white);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary-large:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .cta-note {
+            font-size: var(--text-base);
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: var(--font-medium);
+        }
+        
+        /* Final CTA Responsive */
+        @media (max-width: 767px) {
+            #final-cta {
+                padding: var(--space-16) 0;
+            }
+            
+            .cta-headline {
+                font-size: var(--text-4xl);
+            }
+            
+            .cta-subheadline {
+                font-size: var(--text-lg);
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn-primary-large, .btn-secondary-large {
+                width: 100%;
+                min-width: auto;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .cta-headline {
+                font-size: var(--text-6xl);
+            }
+        }
+        
+        /* ===== Footer ===== */
+        #footer {
+            background-color: var(--color-dark);
+            color: rgba(255, 255, 255, 0.8);
+            padding: var(--space-16) 0 var(--space-8);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-8);
+            margin-bottom: var(--space-12);
+        }
+        
+        .footer-brand h3 {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--color-white);
+            margin-bottom: var(--space-3);
+        }
+        
+        .footer-brand p {
+            font-size: var(--text-base);
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .footer-links h4 {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            color: var(--color-white);
+            margin-bottom: var(--space-4);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: var(--space-3);
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: var(--text-base);
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--color-white);
+            text-decoration: underline;
+        }
+        
+        .footer-social h4 {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            color: var(--color-white);
+            margin-bottom: var(--space-4);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: var(--space-4);
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            color: var(--color-white);
+            text-decoration: none;
+            font-size: var(--text-xl);
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: var(--gradient-primary);
+            transform: translateY(-2px);
+        }
+        
+        .footer-bottom {
+            padding-top: var(--space-8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .footer-bottom p {
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Footer Responsive */
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            }
+            
+            .footer-brand {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+    
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="container">
+                <h1 class="hero-headline">Laboratorium AI untuk Kreator Konten</h1>
+                <p class="hero-subheadline">Platform lengkap yang membantu kreator menemukan ide, membuat konten berkualitas, dan menganalisis performa—semua dalam satu tempat.</p>
+                <div class="cta-group">
+                    <button class="btn-primary">Mulai Gratis</button>
+                    <button class="btn-secondary">Coba Demo</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Problem Section -->
+        <section id="problems">
+            <div class="container">
+                <h2 class="section-title">Tantangan Kreator Hari Ini</h2>
+                <div class="problems-grid">
+                    <div class="problem-card">
+                        <div class="problem-icon">💭</div>
+                        <h3>Kehabisan Ide Konten</h3>
+                        <p>Setiap hari harus posting, tapi ide sering mentok. Scrolling berjam-jam cari inspirasi, tapi tetap bingung mau bikin apa.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">😰</div>
+                        <h3>Burnout & Overwhelmed</h3>
+                        <p>Riset, bikin konten, edit, posting, balas komentar—semuanya dikerjakan sendiri. Rasanya nggak ada habisnya.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">📉</div>
+                        <h3>Tidak Konsisten</h3>
+                        <p>Pengen posting rutin tapi susah. Kadang semangat, kadang hilang motivasi. Akibatnya engagement turun dan follower stagnan.</p>
+                    </div>
+                    <div class="problem-card">
+                        <div class="problem-icon">🎯</div>
+                        <h3>Algoritma Berubah Terus</h3>
+                        <p>Baru ngerti cara kerja algoritma, eh tiba-tiba berubah lagi. Konten yang dulu viral, sekarang nggak laku.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Solution Section -->
+        <section id="solution">
+            <div class="container">
+                <h2 class="section-title">Kenalkan: kreatr.app</h2>
+                <p class="section-intro">Platform AI lengkap yang membantu kreator dari riset hingga publikasi—semua dalam satu tempat</p>
+                <div class="solution-workflow">
+                    <div class="workflow-step">
+                        <span class="step-number">1</span>
+                        <h4>Riset & Ide</h4>
+                        <p>AI membantu menemukan ide konten berdasarkan tren terkini dan persona audiens Anda</p>
+                    </div>
+                    <div class="workflow-connector">→</div>
+                    <div class="workflow-step">
+                        <span class="step-number">2</span>
+                        <h4>Buat Konten</h4>
+                        <p>Generate caption, visual, dan konten berkualitas dengan bantuan AI dalam hitungan menit</p>
+                    </div>
+                    <div class="workflow-connector">→</div>
+                    <div class="workflow-step">
+                        <span class="step-number">3</span>
+                        <h4>Publikasi</h4>
+                        <p>Jadwalkan dan posting otomatis ke TikTok, Instagram, X, dan platform lainnya</p>
+                    </div>
+                    <div class="workflow-connector">→</div>
+                    <div class="workflow-step">
+                        <span class="step-number">4</span>
+                        <h4>Analisis</h4>
+                        <p>Dapatkan insight berbasis data untuk terus meningkatkan performa konten Anda</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Features Section -->
+        <section id="features">
+            <div class="container">
+                <h2 class="section-title">Fitur Unggulan</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🧪</div>
+                        <h3>AI Content Lab</h3>
+                        <p>Brainstorming ide konten dengan AI yang memahami tren, audiens, dan niche Anda. Dapatkan puluhan ide kreatif dalam hitungan detik.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📅</div>
+                        <h3>Smart Scheduler</h3>
+                        <p>Jadwalkan dan posting otomatis ke TikTok, Instagram, X, dan platform lainnya. Atur konten seminggu penuh dalam sekali duduk.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Insight Dashboard</h3>
+                        <p>Analisis performa konten dengan data yang mudah dipahami. Ketahui konten mana yang viral dan mengapa.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h3>Collaboration Space</h3>
+                        <p>Kerja sama dengan tim, klien, atau sesama kreator. Kelola proyek bersama dan berikan feedback real-time.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Boost Credit System</h3>
+                        <p>Sistem kredit fleksibel yang bisa digunakan sesuai kebutuhan. Bayar hanya untuk fitur yang Anda gunakan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Demo Section -->
+        <section id="demo">
+            <div class="container">
+                <h2 class="section-title">Lihat kreatr.app Beraksi</h2>
+                <p class="section-intro">Dari ide hingga viral—semua dalam satu platform</p>
+                <div class="demo-video">
+                    <div class="video-placeholder"></div>
+                <div clasdiv class="play-icon">▶</div>
+                        <p>Demo Video</p>
+                    </div>
+                </div>
+                <div class="demo-steps">
+                    <div class="demo-step">
+                        <div class="demo-step-number">01</div>
+                        <h4>Temukan Ide</h4>
+                        <p>Masukkan topik atau niche Anda, AI akan memberikan puluhan ide konten yang relevan dengan tren terkini dan audiens target.</p>
+                    </div>
+                    <div class="demo-step">
+                        <div class="demo-step-number">02</div>
+                        <h4>Generate Konten</h4>
+                        <p>Pilih ide favorit, lalu biarkan AI membuat caption menarik, hashtag yang tepat, dan bahkan saran visual untuk konten Anda.</p>
+                    </div>
+                    <div class="demo-step">
+                        <div class="demo-step-number">03</div>
+                        <h4>Posting & Jadwalkan</h4>
+                        <p>Atur jadwal posting optimal untuk setiap platform. Konten akan otomatis dipublikasikan di waktu terbaik untuk engagement maksimal.</p>
+                    </div>
+                    <div class="demo-step">
+                        <div class="demo-step-number">04</div>
+                        <h4>Analisis Hasil</h4>
+                        <p>Pantau performa real-time, lihat insight mendalam, dan dapatkan rekomendasi untuk konten berikutnya yang lebih baik.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Testimonials Section -->
+        <section id="testimonials">
+            <div class="container">
+                <h2 class="section-title">Dipercaya Kreator Indonesia</h2>
+                <p class="section-intro">Bergabunglah dengan komunitas kreator yang sudah berkembang bersama kreatr.app</p>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card"></div>
+            </div>     <div class="quote-mark">"</div>
+                        <div class="testimonial-quote">kreatr.app benar-benar game changer! Dulu saya butuh 3-4 jam untuk riset dan bikin konten, sekarang cuma 30 menit. Engagement saya naik 150% dalam 2 bulan.</div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <span>SA</span>
+                            </div>
+                            <div class="author-info">
+                                <p class="author-name">Siti Aminah</p>
+                                <p class="author-role">Content Creator & Influencer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="quote-mark">"</div>
+                        <div class="testimonial-quote">Sebagai pemilik UMKM, saya nggak punya waktu banyak untuk sosmed. kreatr.app membantu saya tetap konsisten posting tanpa harus hire social media manager.</div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <span>BP</span>
+                            </div>
+                            <div class="author-info">
+                                <p class="author-name">Budi Prasetyo</p>
+                                <p class="author-role">Founder, Kopi Nusantara</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="quote-mark">"</div>
+                        <div class="testimonial-quote">Fitur kolaborasinya sangat membantu tim kami. Sekarang semua konten client bisa dikelola dalam satu platform. Produktivitas naik drastis!</div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                <span>DP</span>
+                            </div>
+                            <div class="author-info">
+                                <p class="author-name">Dewi Puspita</p>
+                                <p class="author-role">Digital Marketing Manager</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="quote-mark">"</div>
+                        <div class="testimonial-quote">AI-nya cerdas banget! Ide-ide yang dikasih selalu relevan dengan niche saya. Plus, insight dashboard-nya bikin saya paham audiens lebih dalam.</div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                                <span>RH</span>
+                            </div>
+                            <div class="author-info">
+                                <p class="author-name">Reza Hidayat</p>
+                                <p class="author-role">Tech Reviewer & YouTuber</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="quote-mark">"</div>
+                        <div class="testimonial-quote">Dari semua tools yang pernah saya coba, kreatr.app paling user-friendly dan lengkap. Worth every penny untuk kreator yang serius mau berkembang.</div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                                <span>LM</span>
+                            </div>
+                            <div class="author-info">
+                                <p class="author-name">Linda Maharani</p>
+                                <p class="author-role">Lifestyle Blogger</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="quote-mark">"</div>
+                        <div class="testimonial-quote">Boost credit system-nya fleksibel banget. Saya bisa sesuaikan budget dengan kebutuhan. Nggak ada yang terbuang sia-sia.</div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                                <span>AW</span>
+                            </div>
+                            <div class="author-info">
+                                <p class="author-name">Andi Wijaya</p>
+                                <p class="author-role">Freelance Content Strategist</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Pricing Section -->
+        <section id="pricing">
+            <div class="container">
+                <h2 class="section-title">Pilih Paket yang Tepat</h2>
+                <p class="section-intro">Mulai gratis, upgrade kapan saja sesuai kebutuhan Anda</p>
+                <div class="pricing-grid">
+                    <div class="pricing-card"></div>
+                        <h3 class="tier-name">Free</h3>
+                        <p class="tier-description">Sempurna untuk memulai dan eksplorasi</p>
+                        <ul class="tier-features">
+                            <li>✓ 10 AI-generated ideas per bulan</li>
+                            <li>✓ 5 konten posts per bulan</li>
+                            <li>✓ 1 social media account</li>
+                            <li>✓ Basic analytics</li>
+                            <li>✓ Community support</li>
+                        </ul>
+                        <button class="btn-outline">Mulai Gratis</button>
+                    </div>
+                    <div class="pricing-card featured">
+                        <div class="popular-badge">Paling Populer</div>
+                        <h3 class="tier-name">Boost</h3>
+                        <p class="tier-description">Untuk kreator yang serius berkembang</p>
+                        <ul class="tier-features">
+                            <li>✓ 100 AI-generated ideas per bulan</li>
+                            <li>✓ 50 konten posts per bulan</li>
+                            <li>✓ 5 social media accounts</li>
+                            <li>✓ Advanced analytics & insights</li>
+                            <li>✓ Smart scheduler</li>
+                            <li>✓ Collaboration tools (3 members)</li>
+                            <li>✓ Priority support</li>
+                            <li>✓ Boost credits untuk fitur premium</li>
+                        </ul>
+                        <button class="btn-primary">Mulai Boost</button>
+                    </div>
+                    <div class="pricing-card">
+                        <h3 class="tier-name">Pro</h3>
+                        <p class="tier-description">Untuk tim dan agensi profesional</p>
+                        <ul class="tier-features">
+                            <li>✓ Unlimited AI-generated ideas</li>
+                            <li>✓ Unlimited konten posts</li>
+                            <li>✓ Unlimited social media accounts</li>
+                            <li>✓ Advanced analytics & custom reports</li>
+                            <li>✓ Smart scheduler dengan AI optimization</li>
+                            <li>✓ Unlimited team collaboration</li>
+                            <li>✓ White-label options</li>
+                            <li>✓ Dedicated account manager</li>
+                            <li>✓ Custom integrations</li>
+                        </ul>
+                        <button class="btn-outline">Hubungi Sales</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Final CTA Section -->
+        <section id="final-cta">
+            <div class="container">
+                <h2 class="cta-headline">Mulai Eksperimen Hari Ini</h2>
+                <p class="cta-subheadline">Bergabunglah dengan ribuan kreator yang sudah menggunakan kreatr.app untuk mengembangkan konten mereka. Gratis untuk memulai, tanpa kartu kredit.</p>
+                <div class="cta-buttons">
+                    <button class="btn-primary-large">Daftar Sekarang</button>
+                    <button class="btn-secondary-large">Jadwalkan Demo</button>
+                </div>
+                <p class="cta-note">✨ Dapatkan 50 Boost Credits gratis saat mendaftar hari ini!</p>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>kreatr.app</h3>
+                    <p>Laboratorium AI untuk Kreator Konten</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Produk</h4>
+                    <ul>
+                        <li><a href="#features">Fitur</a></li>
+                        <li><a href="#pricing">Harga</a></li>
+                        <li><a href="#demo">Demo</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Perusahaan</h4>
+                    <ul>
+                        <li><a href="#about">Tentang</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#contact">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Ikuti Kami</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Twitter">𝕏</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="LinkedIn">💼</a>
+                        <a href="#" aria-label="TikTok">🎵</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 kreatr.app. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe problem cards
+        document.querySelectorAll('.problem-card').forEach(card => {
+            observer.observe(card);
+        });
+        
+        // Observe workflow steps with stagger effect
+        document.querySelectorAll('.workflow-step').forEach((step, index) => {
+            setTimeout(() => {
+                observer.observe(step);
+            }, index * 100);
+        });
+        
+        // Observe feature cards with stagger effect
+        document.querySelectorAll('.feature-card').forEach((card, index) => {
+            setTimeout(() => {
+                observer.observe(card);
+            }, index * 100);
+        });
+        
+        // Observe demo steps with stagger effect
+        document.querySelectorAll('.demo-step').forEach((step, index) => {
+            setTimeout(() => {
+                observer.observe(step);
+            }, index * 150);
+        });
+        
+        // Observe testimonial cards with stagger effect
+        document.querySelectorAll('.testimonial-card').forEach((card, index) => {
+            setTimeout(() => {
+                observer.observe(card);
+            }, index * 100);
+        });
+        
+        // Observe pricing cards with stagger effect
+        document.querySelectorAll('.pricing-card').forEach((card, index) => {
+            setTimeout(() => {
+                observer.observe(card);
+            }, index * 150);
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
